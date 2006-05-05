@@ -24,7 +24,6 @@ private:
   SOUNDINFO m_SoundInfo;
   DWORD m_dwCurrentBlock;
   BOOL m_bRawPCM;
-  BOOL m_bUseRunLength;
   DWORD m_dwLoopPoint, m_dwEndPoint;
   DWORD m_dwSamplesToSkip;
   BOOL m_bIsLooped;
@@ -35,7 +34,7 @@ private:
   // nCompressionLevel <= 2
   DWORD NWADecode(BYTE* pOutput);
   // nCompressionLevel == 5
-  DWORD NWA5Decode(BYTE* pOutput);
+  //DWORD NWA5Decode(BYTE* pOutput);
 
   BOOL DecodeSub(BYTE* pBuffer, DWORD dwSize, DWORD& dwBytesRendered);
 
@@ -78,7 +77,6 @@ public:
     ZeroMemory(&m_Header, sizeof m_Header);
     ZeroMemory(&m_SoundInfo, sizeof m_SoundInfo);
     m_bRawPCM = FALSE;
-    m_bUseRunLength = FALSE;
     m_bIsLooped = FALSE;
     m_dwCurrentBlock = 0;
     m_dwLoopPoint = m_dwEndPoint = 0;

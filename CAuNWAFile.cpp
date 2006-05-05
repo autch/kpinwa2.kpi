@@ -79,7 +79,7 @@ BOOL CAuNWAFile::CheckHeader()
   f = f && (m_bRawPCM || m_pBlockOffsets);
   f = f && (m_Header.sChannels == 1 || m_Header.sChannels == 2);
   f = f && (m_Header.sBitsPerSample == 8 || m_Header.sBitsPerSample == 16);
-  f = f && ((m_Header.nCompressionLevel >= -1 && m_Header.nCompressionLevel <= 2) || m_Header.nCompressionLevel == 5);
+  //f = f && ((m_Header.nCompressionLevel >= -1 && m_Header.nCompressionLevel <= 2) || m_Header.nCompressionLevel == 5);
   if(m_bRawPCM) return f;     // 生 PCM のときはここまで
   f = f && (GetFileSize(m_hFile, NULL) == m_Header.nCompressedSize);
   f = f && (m_pBlockOffsets[m_Header.nBlocks - 1] < (DWORD)m_Header.nCompressedSize);
@@ -201,14 +201,13 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
   BYTE* pOutputBackup = pOutput;
   SHORT sBitsPerSample = m_Header.sBitsPerSample, sChannels = m_Header.sChannels;
   int nCompressionLevel = m_Header.nCompressionLevel;
-  BOOL bRunLength = m_bUseRunLength;
   int nDstSamples = IsInLastBlock() ? m_Header.nSamplesInLastBlock : m_Header.nSamplesPerBlock;
 
   /* 圧縮レベルが 5 の場合。 */
-  if(nCompressionLevel == 5)
+  /*if(nCompressionLevel == 5)
   {
     return NWA5Decode(pOutput);
-  }
+  }*/
 
   /* 最初のデータを読み込む */
   WriteInitials(nSample, pSrcBuffer, sBitsPerSample);
@@ -228,10 +227,10 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
       else
       {
         // patched 2005.10.30
-        const int BITS = (nCompressionLevel == 5) ? 8 : ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
-        const int SHIFT = (nCompressionLevel == 5) ? nSampleType + 1 + ((nSampleType == 7) ? 1 : 0): 2 + nSampleType + nCompressionLevel;
-			  const int MASK1 = 1 << (BITS - 1);
-			  const int MASK2 = MASK1 - 1;
+        int BITS = (nCompressionLevel == 5) ? 8 : ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
+        int SHIFT = (nCompressionLevel == 5) ? nSampleType + 1 + ((nSampleType == 7) ? 1 : 0): 2 + nSampleType + nCompressionLevel;
+			  int MASK1 = 1 << (BITS - 1);
+			  int MASK2 = MASK1 - 1;
 			  int b = GetBits(pSrcBuffer, nShiftBits, BITS);
 			  if(b & MASK1)
 				  nSample[nChannel] -= (b & MASK2) << SHIFT;
@@ -243,7 +242,7 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
     {
       /* nSampleType == 0 */
 			/* ランレングス圧縮なしの場合はなにもしない */
-			if(m_bUseRunLength)
+      if(m_Header.bIsNWK)
       {
 				/* ランレングス圧縮ありの場合 */
 				int nLength = GetBits(pSrcBuffer, nShiftBits, 1);
@@ -256,7 +255,7 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
 				/* 前のデータと同じデータを書いていく */
 				for(int j = 0; j <= nLength; j++)
         {
-            WriteDecoded(pOutput, nSample + nChannel, sBitsPerSample);
+          WriteDecoded(pOutput, nSample + nChannel, sBitsPerSample);
 					if(sChannels == 2) nChannel ^= 1;
 				}
 				i += nLength;
@@ -269,6 +268,9 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
   return (DWORD)(pOutput - pOutputBackup);
 };
 
+#if 0
+
+// DEPRECATED - WILL BE REMOVED IN FUTURE REVISION
 DWORD CAuNWAFile::NWA5Decode(BYTE* pOutput)
 {
 	int nOffset = 0;
@@ -367,3 +369,5 @@ lWriteSample:
 
   return (DWORD)(pOutput - pOutputBackup); //nDstSamples * (sBitsPerSample >> 3);
 }
+
+#endif
