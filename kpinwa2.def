@@ -1,0 +1,6 @@
+
+LIBRARY	kpinwa2
+
+EXPORTS
+	kmp_GetTestModule
+	

@@ -1,0 +1,166 @@
+
+kpinwa2.kpi v2.11
+=================
+
+Visual Arts のゲームエンジン AVG32（現 RealLive）で使われている、nwa 形
+式のファイルを再生するための KbMedia Player プラグインです。
+
+v2.10 で nwa5（智代アフターの nwa）に対応しました。添付の nwk2nwa を利
+用すればボイスも聞くことができます。動作確認は体験版のみですので、製品
+版ではフォーマットが変更される可能性があります。
+
+木下さんによる kpinwa.kpi v1.50 からの変更点は、
+
+・圧縮 nwa も非圧縮 nwa（いわゆる CLANNAD nwa）もループできるようになり
+ました。
+・正確な演奏時間表示をサポート
+・高速なシークをサポート
+
+改版履歴は一番最後にあります。
+
+ループ対応
+----------
+
+nwa ファイル自体には、ループのための始点、終点の情報は記録されていませ
+ん。この情報は、ゲームの exe ファイル（AVG32.EXE とか reallive.exe）と
+同じか近いディレクトリに入っている GAMEEXE.INI から参照します。nwa ファ
+イルをループさせて再生するには、nwa ファイルと同じディレクトリに、その
+タイトルの GAMEEXE.INI が入っていて、その #DSTRACK エントリとファイル名
+が同一でなければなりません。
+
+
+nwk2nwa
+-------
+音声等が固められている nwk ファイルから nwa ファイルを抽出します。
+	nwk2nwa filename.nwk
+として実行すると、カレントディレクトリに大量の nwa ファイルができます。
+
+
+クレジット
+----------
+ネタ投下：某悪人
+nwa5 解析・アセンブラ実装、nwk2nwa：Sumire Kinoshita (a.k.a. 触手の人)
+C 実装：Autch (or Yui N.)
+
+
+著作権とか
+----------
+
+この kpinwa2.kpi のアーカイブに含まれているすべてのファイルの著作権やそ
+のほかの知的財産権は、次にあげるものはそれぞれの作者が、それ以外の部分
+はその作者であるAutch (Yui N.) が所有しています。
+
+・圧縮 nwa デコーダ部分の著作権は、nwatowav の作者である jagarl さんが
+所有しています。
+
+・GAMEEXE.INI 読み込み部分と智代 nwa の解析、nwk2nwa は、kpinwa.kpi v1
+系の作者である Sumire Kinoshita さんによって行われました。
+
+作者は，このプログラムを使用したこと，または使用しなかった，使用できな
+かった事によって発生する，または発生する恐れのある一切の損害について，
+それらが発生することがあらかじめ作者が知っていたとしても，何らの法的お
+よび道義的責任を負いません。
+
+作者は，このプログラムに存在する，または存在する可能性のある，一切のバ
+グや欠陥について何ら修正する義務を負いません。
+
+このプログラムを販売することで利益を得ることを禁じます。再配布にかかる
+経費などについては制限はありません。
+
+転載、再配布についてはとくに制限しませんが、著作権のあるデータをこのプ
+ラグインで再生するときは、著作者の権利を侵害しないように利用しなければ
+なりません。
+
+以下に nwatowav の著作権表示を示します。
+
+/*
+ * Copyright 2001-2002  jagarl / Kazunori Ueno <jagarl@creator.club.ne.jp>
+ * All Rights Reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted.
+ *
+ * このプログラムの作者は jagarl こと上野和紀です。
+ *
+ * このプログラム、及びコンパイルによって生成したバイナリは
+ * プログラムを変更する、しないにかかわらず再配布可能です。
+ * その際、上記 Copyright 表示を保持するなどの条件は課しま
+ * せん。対応が面倒なのでバグ報告を除き、メールで連絡をする
+ * などの必要もありません。ソースの一部を流用することを含め、
+ * ご自由にお使いください。
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAZUNORI 'jagarl' UENO ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL KAZUNORI UENO BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ * 
+ */
+
+
+以下は kpinwa.kpi v1 系のドキュメントです。
+
+> ======================================================================
+> NWA Decode Plug-in for KbMedia Player Version 1.50
+> Copyright (C) 2003-2004 Sumire Kinoshita
+> ======================================================================
+> 
+> Visual Arts 系のゲームで使われているらしい、
+> NWA 形式のファイルを再生するためのプラグインです。
+> 
+> 某悪人に依頼されて、数時間で作ったものなので、
+> 動作確認が不十分ですが…動作しているようなので公開します。
+> 
+> なお、私自身はこの先、メンテする気はありませんので、
+> 不具合などがありましても、対処出来ないかもしれません。
+> その辺はご了承を…。
+> 
+> なお、製作にあたって jagarl 氏の nwatowav を、
+> 参考…というより、そのまま組み込ませて頂きました。
+> この場を借りて、お礼申し上げます。
+> 
+> 扱いはフリーソフトで。全て自己責任でお願いします。
+> あと、転載の連絡は必要ありません。
+> 
+> 2004/04/29 Version 1.50
+> 1年以上ぶりだよー（苦笑
+> Clannad に使われている Lossless 形式に対応してみました。
+> 
+> 2003/04/19 Version 1.02
+> 1.01の修正は、全然意味が無かったことが判明。
+> 再び修正。（thanks Autch）
+> 
+> 2003/04/19 Version 1.01
+> 演奏時間の計算が正しくなかったのを修正。
+> 
+> 2003/04/19 Version 1.00
+> 初公開。
+> 
+> Sumire Kinoshita
+
+
+改版履歴
+--------
+Version 2.00 (512) 2005/01/08
+	SK 版 kpinwa からスタートし、ループ、演奏時間表示、高速シークを
+	サポート
+Version 2.10 (522) 2005/09/25 07:40
+	智代アフターの nwa 形式（nCompressionLevel == 5 なので nwa5 と
+	勝手に命名）に対応、ループしない曲と gameexe.ini が混在できてい
+	なかったバグを修正。元とした kpinwa v1 系のバージョンを 1.50 に
+	修正。
+Version 2.11 (523) 2005/09/25 13:10
+	主にボイスでノイズが入るのを修正 (S.Kino)
+
+----------------------
+Autch (a.k.a. Yui N.)
+http://www.autch.net/
+autch@autch.net
+

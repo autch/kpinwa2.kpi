@@ -1,0 +1,4 @@
+set DEST="c:\program files\kbmedia player\plugins\autch\kpinwa2"
+copy .\%1\kpinwa2.kpi %DEST% /y
+copy .\kpinwa2.txt %DEST% /y
+copy .\%1\*.pdb %DEST% /y
