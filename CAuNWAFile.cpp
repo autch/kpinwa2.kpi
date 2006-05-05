@@ -203,6 +203,13 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
   int nCompressionLevel = m_Header.nCompressionLevel;
   int nDstSamples = IsInLastBlock() ? m_Header.nSamplesInLastBlock : m_Header.nSamplesPerBlock;
 
+  /* 圧縮レベルが 4 の場合。 */
+  if(nCompressionLevel == 4)
+  {
+#include "RealLive.0040CE12.inc"
+    return nDstSamples * (sBitsPerSample >> 3);
+  }
+
   /* 圧縮レベルが 5 の場合。 */
   /*if(nCompressionLevel == 5)
   {
