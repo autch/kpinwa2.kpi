@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "kpiEntryPoints.h"
 
-#define KPINWA2_VERSION   ((2 << 8) | 2)      // 2.2
+#define KPINWA2_VERSION   ((2 << 8) | 20)      // 2.20
 #ifdef _DEBUG
 #define KPINWA2_DESC      "VisualArts AVG32 nwa decoder for KbMedia Player [DEBUG]"
 #else
