@@ -204,11 +204,11 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
   int nDstSamples = IsInLastBlock() ? m_Header.nSamplesInLastBlock : m_Header.nSamplesPerBlock;
 
   /* 圧縮レベルが 4 の場合。 */
-  if(nCompressionLevel == 4)
+  /*if(nCompressionLevel == 4)
   {
 #include "RealLive.0040CE12.inc"
     return nDstSamples * (sBitsPerSample >> 3);
-  }
+  }*/
 
   /* 最初のデータを読み込む */
   WriteInitials(nSample, pSrcBuffer, sBitsPerSample);
@@ -227,9 +227,23 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
 				nSample[nChannel] = 0; // 未使用
       else
       {
+        int BITS, SHIFT;
         // patched 2005.10.30
-        int BITS = (nCompressionLevel >= 4) ? 8 : ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
-        int SHIFT = (nCompressionLevel >= 4) ? nSampleType + 1 + ((nSampleType == 7) ? 1 : 0): 2 + nSampleType + nCompressionLevel;
+        switch(nCompressionLevel)
+        {
+          case 4:
+            BITS = (nSampleType == 7) ? 8 : 7;
+            SHIFT = (nSampleType == 7) ? 9 : nSampleType + 1;
+            break;
+          case 5:
+            BITS = 8;
+            SHIFT = (nSampleType == 7) ? 9 : nSampleType + 1;
+            break;
+          default:
+            BITS = ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
+            SHIFT = 2 + nSampleType + nCompressionLevel;
+            break;
+        }
 			  int MASK1 = 1 << (BITS - 1);
 			  int MASK2 = MASK1 - 1;
 			  int b = GetBits(pSrcBuffer, nShiftBits, BITS);
