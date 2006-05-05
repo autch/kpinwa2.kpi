@@ -79,7 +79,7 @@ BOOL CAuNWAFile::CheckHeader()
   f = f && (m_bRawPCM || m_pBlockOffsets);
   f = f && (m_Header.sChannels == 1 || m_Header.sChannels == 2);
   f = f && (m_Header.sBitsPerSample == 8 || m_Header.sBitsPerSample == 16);
-  //f = f && ((m_Header.nCompressionLevel >= -1 && m_Header.nCompressionLevel <= 2) || m_Header.nCompressionLevel == 5);
+  f = f && ((m_Header.nCompressionLevel >= -1 && m_Header.nCompressionLevel <= 5));
   if(m_bRawPCM) return f;     // 生 PCM のときはここまで
   f = f && (GetFileSize(m_hFile, NULL) == m_Header.nCompressedSize);
   f = f && (m_pBlockOffsets[m_Header.nBlocks - 1] < (DWORD)m_Header.nCompressedSize);
@@ -203,13 +203,6 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
   int nCompressionLevel = m_Header.nCompressionLevel;
   int nDstSamples = IsInLastBlock() ? m_Header.nSamplesInLastBlock : m_Header.nSamplesPerBlock;
 
-  /* 圧縮レベルが 4 の場合。 */
-  /*if(nCompressionLevel == 4)
-  {
-#include "RealLive.0040CE12.inc"
-    return nDstSamples * (sBitsPerSample >> 3);
-  }*/
-
   /* 最初のデータを読み込む */
   WriteInitials(nSample, pSrcBuffer, sBitsPerSample);
   if(sChannels == 2)
@@ -228,7 +221,6 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
       else
       {
         int BITS, SHIFT;
-        // patched 2005.10.30
         switch(nCompressionLevel)
         {
           case 4:
