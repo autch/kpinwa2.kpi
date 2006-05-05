@@ -31,10 +31,7 @@ private:
   BOOL ReadHeader();
   BOOL CheckHeader();
 
-  // nCompressionLevel <= 2
   DWORD NWADecode(BYTE* pOutput);
-  // nCompressionLevel == 5
-  //DWORD NWA5Decode(BYTE* pOutput);
 
   BOOL DecodeSub(BYTE* pBuffer, DWORD dwSize, DWORD& dwBytesRendered);
 

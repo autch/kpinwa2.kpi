@@ -4,9 +4,13 @@
 #include "stdafx.h"
 #include "kpiEntryPoints.h"
 
-#define KPINWA2_VERSION   ((2 << 8) | 11)      // 2.11
+#define KPINWA2_VERSION   ((2 << 8) | 2)      // 2.2
+#ifdef _DEBUG
+#define KPINWA2_DESC      "VisualArts AVG32 nwa decoder for KbMedia Player [DEBUG]"
+#else
 #define KPINWA2_DESC      "VisualArts AVG32 nwa decoder for KbMedia Player"
-#define KPINWA2_COPYRIGHT "Copyright (c) 2001-2002, jagarl / 2004-2005, S. Kino. / 2004-2005, Yui N."
+#endif
+#define KPINWA2_COPYRIGHT "Copyright (c) 2001-2002, jagarl / 2004-2006, S. Kino. / 2004-2006, Yui N."
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReasonForCall, LPVOID lpReserved)
 {

@@ -210,12 +210,6 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
     return nDstSamples * (sBitsPerSample >> 3);
   }
 
-  /* 圧縮レベルが 5 の場合。 */
-  /*if(nCompressionLevel == 5)
-  {
-    return NWA5Decode(pOutput);
-  }*/
-
   /* 最初のデータを読み込む */
   WriteInitials(nSample, pSrcBuffer, sBitsPerSample);
   if(sChannels == 2)
@@ -234,8 +228,8 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
       else
       {
         // patched 2005.10.30
-        int BITS = (nCompressionLevel == 5) ? 8 : ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
-        int SHIFT = (nCompressionLevel == 5) ? nSampleType + 1 + ((nSampleType == 7) ? 1 : 0): 2 + nSampleType + nCompressionLevel;
+        int BITS = (nCompressionLevel >= 4) ? 8 : ((nSampleType == 7) ? 8 : 5) - nCompressionLevel;
+        int SHIFT = (nCompressionLevel >= 4) ? nSampleType + 1 + ((nSampleType == 7) ? 1 : 0): 2 + nSampleType + nCompressionLevel;
 			  int MASK1 = 1 << (BITS - 1);
 			  int MASK2 = MASK1 - 1;
 			  int b = GetBits(pSrcBuffer, nShiftBits, BITS);
@@ -273,108 +267,5 @@ DWORD CAuNWAFile::NWADecode(BYTE* pOutput)
 		if(sChannels == 2) nChannel ^= 1; /* channel 切り替え */
 	}
   return (DWORD)(pOutput - pOutputBackup);
-};
-
-#if 0
-
-// DEPRECATED - WILL BE REMOVED IN FUTURE REVISION
-DWORD CAuNWAFile::NWA5Decode(BYTE* pOutput)
-{
-	int nOffset = 0;
-  short nSample, nTemp[2];
-	int nShiftBits = 0;
-  BYTE* pSrcBuffer = m_pBlockBuffer;
-  BYTE* pOutputBackup = pOutput;
-  SHORT sBitsPerSample = m_Header.sBitsPerSample, sChannels = m_Header.sChannels;
-  int nDstSamples = IsInLastBlock() ? m_Header.nSamplesInLastBlock : m_Header.nSamplesPerBlock;
-  int nBytesToRender = nDstSamples * (sBitsPerSample >> 3);
-  int nSamplesDecoded = 0, nRun = 0, nCurrentChannel = 0;
-  int bIsMono = (sChannels == 1); //m_Header.bIsNWK;
-
-  nTemp[0] = *(signed short *)&pSrcBuffer[0];
-  nTemp[1] = *(signed short *)&pSrcBuffer[2];
-
-  pSrcBuffer += 2;
-  *(short*)pOutput = nTemp[0];
-  pOutput += 2;
-  if(!bIsMono)
-  {
-    *(short*)pOutput = nTemp[1];
-    pOutput += 2;
-    pSrcBuffer += 2;
-  }
-
-  if(!nDstSamples) return 0;
-  while(nSamplesDecoded < nDstSamples)
-  {
-    nSample = nTemp[nCurrentChannel];
-    if(nRun)
-    {
-      nRun--;
-      goto lWriteSample;
-    }
-    int nSampleType = GetBits(pSrcBuffer, nShiftBits, 3);
-    switch(nSampleType)
-    {
-      case 0:
-      {
-        // ランレングス？
-        if(!bIsMono) break;
-
-        nRun = GetBits(pSrcBuffer, nShiftBits, 1);
-        if(nRun != 0x01) break;
-
-        nRun = GetBits(pSrcBuffer, nShiftBits, 2);
-        if(nRun != 0x03) break;
-
-        nRun = GetBits(pSrcBuffer, nShiftBits, 8);
-        break;
-      }
-      case 1: case 2: case 3: case 4: case 5: case 6:
-      {
-        int i = GetBits(pSrcBuffer, nShiftBits, 8);
-        if(i & 0x80)
-        {
-          i &= 0x7f;
-          nSample -= (i << (nSampleType + 1));
-          break;
-        }
-        nSample += (i << (nSampleType + 1));
-        break;
-      }
-      case 7:
-      {
-        int b = GetBits(pSrcBuffer, nShiftBits, 1);
-        if(!b)
-        {
-          int i = GetBits(pSrcBuffer, nShiftBits, 8);
-          if(i & 0x80)
-          {
-            i &= 0x7f;
-            nSample -= (i << 9);
-            break;
-          }
-          nSample += i << 9;
-          break;
-        }
-        nSample = 0;
-      }
-    }
-lWriteSample:
-    if(nSamplesDecoded >= nOffset)
-    {
-      if(nSamplesDecoded >= nDstSamples)
-        break;
-      *(short*)pOutput = nSample;
-      pOutput += 2;
-    }
-    nTemp[nCurrentChannel] = nSample;
-    nSamplesDecoded++;
-    nCurrentChannel ^= 1;
-    if(bIsMono) nCurrentChannel = 0;
-  } // while
-
-  return (DWORD)(pOutput - pOutputBackup); //nDstSamples * (sBitsPerSample >> 3);
 }
 
-#endif
