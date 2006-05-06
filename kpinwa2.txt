@@ -5,7 +5,7 @@ kpinwa2.kpi v2.20
 Visual Arts のゲームエンジン AVG32（現 RealLive）で使われている、nwa 形
 式のファイルを再生するための KbMedia Player プラグインです。
 
-v2.20 で nCompressionLevel == 4 の nwa に対応しました．
+v2.20 で planetarian のボイス（nwa4）に対応しました．
 
 v2.10 で nwa5（智代アフターの nwa）に対応しました。添付の nwk2nwa を利
 用すればボイスも聞くことができます。動作確認は体験版のみですので、製品
@@ -20,9 +20,9 @@ v2.10 で nwa5（智代アフターの nwa）に対応しました。添付の nwk2nwa を利
 
 改版履歴は一番最後にあります。
 
+
 ループ対応
 ----------
-
 nwa ファイル自体には、ループのための始点、終点の情報は記録されていませ
 ん。この情報は、ゲームの exe ファイル（AVG32.EXE とか reallive.exe）と
 同じか近いディレクトリに入っている GAMEEXE.INI から参照します。nwa ファ
@@ -161,7 +161,8 @@ Version 2.10 (522) 2005/09/25 07:40
 Version 2.11 (523) 2005/09/25 13:10
 	主にボイスでノイズが入るのを修正 (S.Kino)
 Version 2.20 (532) 2006/05/06 6:30
-	nCompressionLevel == 4 な nwa に対応．
+	nCompressionLevel == 4 な nwa に対応．動作確認は planetarian の
+	ボイス．
 
 ----------------------
 Autch (a.k.a. Yui N.)
