@@ -28,7 +28,8 @@ BOOL CAuNWAFileDecoder::Open(LPSTR szFileName, SOUNDINFO* pInfo)
     ParseIni(inifile, szBgmName);
 
     fclose(inifile);
-    if(m_pFile->GetLoopPoint() == 0 && m_pFile->GetEndPoint() == 99999999)
+    if((m_pFile->GetLoopPoint() == 0 && m_pFile->GetEndPoint() == 99999999)
+      || (m_pFile->GetLoopPoint() == 99999999 && m_pFile->GetEndPoint() == 99999999))
     {
       m_pFile->SetLooped(FALSE);
       m_pFile->SetLoopPoint(0);
