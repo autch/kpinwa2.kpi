@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "CAuNWAFile.h"
 
+// kpiEntryPoints.cpp
+UINT GetMyProfileInt(LPSTR szSectionName, LPSTR szKeyName, INT nDefault = 0);
+
 BOOL CAuNWAFile::Open(LPSTR lpszFileName)
 {
   m_hFile = CreateFile(lpszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -66,7 +69,7 @@ BOOL CAuNWAFile::ReadHeader()
     if(m_dwEndPoint == 99999999) m_dwEndPoint = m_Header.nSamples / Channels();
     DWORD dwFullLength = SamplesToMSecs(m_dwEndPoint);
     DWORD dwToLoopPoint = SamplesToMSecs(m_dwLoopPoint);   // ÉCÉìÉgÉçÇÃí∑Ç≥
-    m_SoundInfo.dwLength = dwToLoopPoint + (dwFullLength - dwToLoopPoint) * 2;
+    m_SoundInfo.dwLength = dwToLoopPoint + (dwFullLength - dwToLoopPoint) * ::GetMyProfileInt("kpinwa2", "loop", 2);
     m_SoundInfo.dwLoopFlag = TRUE;
   }
   return CheckHeader();

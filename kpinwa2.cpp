@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "kpiEntryPoints.h"
 
-#define KPINWA2_VERSION   ((2 << 8) | 20)      // 2.20
+#define KPINWA2_VERSION   ((2 << 8) | 21)      // 2.21
 #ifdef _DEBUG
 #define KPINWA2_DESC      "VisualArts AVG32 nwa decoder for KbMedia Player [DEBUG]"
 #else
@@ -12,10 +12,16 @@
 #endif
 #define KPINWA2_COPYRIGHT "Copyright (c) 2001-2002, jagarl / 2004-2006, S. Kino. / 2004-2006, Yui N."
 
+HMODULE g_hModule;
+CHAR    g_szIniFileName[MAX_PATH];
+
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReasonForCall, LPVOID lpReserved)
 {
   if(dwReasonForCall == DLL_PROCESS_ATTACH)
+  {
+    g_hModule = (HMODULE)hModule;
     DisableThreadLibraryCalls((HMODULE)hModule);
+  }
   return TRUE;
 }
 

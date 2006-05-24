@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "CAuNWAFileDecoder.h"
 
+// kpiEntryPoints.cpp
+UINT GetMyProfileInt(LPSTR szSectionName, LPSTR szKeyName, INT nDefault = 0);
+
 BOOL CAuNWAFileDecoder::Open(LPSTR szFileName, SOUNDINFO* pInfo)
 {
   m_pFile = new CAuNWAFile();
@@ -14,6 +17,13 @@ BOOL CAuNWAFileDecoder::Open(LPSTR szFileName, SOUNDINFO* pInfo)
   strcpy(strrchr(szIniFileName, '\\'), "\\GAMEEXE.INI");
 
   inifile = fopen(szIniFileName, "r");
+  if(!inifile && !::GetMyProfileInt("kpinwa2", "NoAscendSearch", 0))
+  {
+    strcpy(szIniFileName, szFileName);
+    strcpy(strrchr(szIniFileName, '\\'), "\\..\\GAMEEXE.INI");
+
+    inifile = fopen(szIniFileName, "r");
+  }
   if(inifile)
   {
     char szBgmName[_MAX_FNAME];

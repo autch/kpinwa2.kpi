@@ -7,6 +7,8 @@
 
 void WINAPI kpiInit()
 {
+  GetModuleFileName(::g_hModule, ::g_szIniFileName, MAX_PATH);
+  strcpy(strrchr(g_szIniFileName, '.'), ".ini");
 }
 
 void WINAPI kpiDeinit()
@@ -45,4 +47,9 @@ DWORD WINAPI kpiSetPosition(HKMP hKMP, DWORD dwPos)
     return d->SetPosition(dwPos);
   }
 	return 0;
+}
+
+UINT GetMyProfileInt(LPSTR szSectionName, LPSTR szKeyName, INT nDefault)
+{
+  return ::GetPrivateProfileInt(szSectionName, szKeyName, nDefault, ::g_szIniFileName);
 }
