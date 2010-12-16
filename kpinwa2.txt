@@ -73,19 +73,56 @@ C 実装：Autch (or Yui N.)
 ・GAMEEXE.INI 読み込み部分と nwa4/5 の解析、nwk2nwa は、kpinwa.kpi v1
 系の作者である Sumire Kinoshita さんによって行われました。
 
-作者は，このプログラムを使用したこと，または使用しなかった，使用できな
-かった事によって発生する，または発生する恐れのある一切の損害について，
-それらが発生することがあらかじめ作者が知っていたとしても，何らの法的お
-よび道義的責任を負いません。
-
-作者は，このプログラムに存在する，または存在する可能性のある，一切のバ
-グや欠陥について何ら修正する義務を負いません。
-
-このプログラムを販売することで利益を得ることを禁じます。再配布にかかる
-経費などについては制限はありません。
-
 各ソフトから抽出したデータはその著作権者の著作物です．これら著作物を私
 的利用の範囲を超えて権利者の許可なく利用することはできません．
+
+kpinwa2.kpi の Autch 開発部分は MIT ライセンスで配布されます。
+
+Copyright (c) 2004-2006, 2010, Autch
+
+以下に定める条件に従い、本ソフトウェアおよび関連文書のファイル（以下
+「ソフトウェア」）の複製を取得するすべての人に対し、ソフトウェアを無制
+限に扱うことを無償で許可します。これには、ソフトウェアの複製を使用、複
+写、変更、結合、掲載、頒布、サブライセンス、および/または販売する権利、
+およびソフトウェアを提供する相手に同じことを許可する権利も無制限に含ま
+れます。
+
+上記の著作権表示および本許諾表示を、ソフトウェアのすべての複製または重
+要な部分に記載するものとします。
+
+ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何ら
+の保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適
+合性、および権利非侵害についての保証も含みますが、それに限定されるもの
+ではありません。 作者または著作権者は、契約行為、不法行為、またはそれ以
+外であろうと、ソフトウェアに起因または関連し、あるいはソフトウェアの使
+用またはその他の扱いによって生じる一切の請求、損害、その他の義務につい
+て何らの責任も負わないものとします。
+
+以下は MIT License の原文です。
+
+The MIT License
+
+Copyright (c) 2004-2006, 2010, Autch
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
 以下に nwatowav の著作権表示を示します。
 
@@ -183,6 +220,9 @@ Version 2.21 (533) 2006/05/25 0:26
 	るはず．
 	ループ回数を指定できるようになった
 	GAMEEXE.INI を一階層だけさかのぼって検索するようになった．
+2010/12/16
+	ライセンスを MIT License に変更。
+
 
 ----------------------
 Autch (a.k.a. Yui N.)
